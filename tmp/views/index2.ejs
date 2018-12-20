@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>index2</title>
+</head>
+<body>
+   <h1>ここに画像が流れてくるよ</h1>
+   <div id="come_image"></div>
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+<script>
+$(function(){
+    //socket接続
+    var socket = io.connect();
+    console.log(2)
+
+    socket.on('send_img',function(data){
+        console.log(data); //これは出てきました
+        $('<img width="200">').attr('src',data).appendTo('#come_image');//これが画像にならない
+    })
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>index</title>
+</head>
+<body>
+    <h1>画像を送る側</h1>
+    <input type="file" accept="image/*" id="image">
+    <button id="send">send</button>
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+
+<script>
+$(function(){
+    //socket接続
+    var socket = io.connect();
+
+    //画像プレビュー
+    var image = $('#image').on('change',function(){
+        var fileList = $(this).prop('files');
+        var reader = new FileReader();
+        reader.readAsDataURL(fileList[0]);
+
+        reader.onload = function(){
+            $('<img width="200" class="preview">').attr('src',reader.result).appendTo('body');
+        }
+    });
+
+//sendボタンを押して、index2へと画像送信
+    $('#send').on('click',function(){
+        console.log(socket)
+        var src = $('.preview').attr('src');
+        console.log(src)
+        socket.emit('send_img',{
+            data: src
+        });
+        
+    });
+
+})
+</script>
+</body>
+</html>
